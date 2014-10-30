@@ -35,6 +35,11 @@ public class Rogue extends Adventurer{
     public int getSC(){
 	return getStamina();
     }
+
+    public void heal(int HP, int STR, int DEX, int INT){
+	setStats(HP,STR,DEX,INT);
+	setStamina(50);
+    }
     
     public void attack(Adventurer other){
 	Random r = new Random();

@@ -1,7 +1,7 @@
 import java.util.Random;
 public class Wizard extends Adventurer{
     private int mana;
-
+    
     public Wizard(){
 	super("Matthew");
 	setHP(50);
@@ -34,6 +34,11 @@ public class Wizard extends Adventurer{
 
     public int getSC(){
 	return getMana();
+    }
+   
+    public void heal(int HP, int STR, int DEX, int INT){
+	setStats(HP,STR,DEX,INT);
+	setMana(50);
     }
     
     public void attack(Adventurer other){

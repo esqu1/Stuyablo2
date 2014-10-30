@@ -35,6 +35,11 @@ public class Warrior extends Adventurer{
     public int getSC(){
 	return getRage();
     }
+
+    public void heal(int HP, int STR, int DEX, int INT){
+	setStats(HP,STR,DEX,INT);
+	setRage(50);
+    }
     
     public void attack(Adventurer other){
 	Random r = new Random();

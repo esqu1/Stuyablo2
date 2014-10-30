@@ -72,6 +72,13 @@ public abstract class Adventurer{
 	return getName();
     }
 
+    public void setStats(int HP, int STR, int DEX, int INT){
+	setHP(HP);
+	setSTR(STR);
+	setDEX(DEX);
+	setINT(INT);
+    }
+    
     public int protect(int n, Adventurer other){
 	return n / ((other.getINT() / 8) + 1);
     }
@@ -89,7 +96,9 @@ public abstract class Adventurer{
 	int n = rand.nextInt(100);
 	return n < m;
     }
-    
+
+    public abstract void heal(int HP, int STR, int DEX, int INT);
+	
     public abstract void attack(Adventurer other);
 	
     public abstract void specialAttack(Adventurer other);

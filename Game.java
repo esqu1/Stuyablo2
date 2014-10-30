@@ -2,8 +2,9 @@ import java.util.Random;
 import java.util.Scanner;
 import java.lang.InterruptedException;
 public class Game{
-    private static int n;
+    private static int n, m = 0;
     private static Adventurer[] players;
+    private static int[] stats = new int[12];
     
     public static boolean isInt(String str){
 	if(str.equals("")){
@@ -93,6 +94,8 @@ public class Game{
 	    int i = Integer.parseInt(str);
 	    if(i <= 30){
 		player.setSTR(i);
+		stats[m] = i;
+		m++;
 		t = false;
 	    }else{
 		System.out.println("That number is invalid.");
@@ -113,6 +116,10 @@ public class Game{
 	    if(j <= 30 - player.getSTR()){
 		player.setDEX(j);
 		player.setINT(30 - j - player.getSTR());
+		stats[m] = j;
+		m++;
+		stats[m] = 30 - j - player.getSTR();
+		m++;
 		t = false;
 	    }else{
 		System.out.println("That number is invalid.");
@@ -324,8 +331,10 @@ public class Game{
     }
     
     public static void heal(Adventurer[] players){
+	int count = 0;
 	for(int i = 0; i < 4; i++){
-	    players[i].setHP(50);
+	    players[i].heal(50,stats[count],stats[count+1],stats[count+2]);
+	    count += 3;
 	}
     }
     public static void main(String[] args){

@@ -24,6 +24,11 @@ public class MartialArtist extends Adventurer{
     public String getStats(){
 	return super.getStats() + getQi() + "QI";
     }
+   
+    public void heal(int HP, int STR, int DEX, int INT){
+	setStats(HP,STR,DEX,INT);
+	setQi(50);
+    }
 
     public void attack(Adventurer other){
 	Random r = new Random();
