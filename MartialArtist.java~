@@ -1,0 +1,24 @@
+import java.util.Random;
+public class MartialArtist extends Adventurer{
+    private int qi;
+
+    public MartialArtist(){
+	setName("Young Sensei");
+	setHP(50);
+	setSTR(10);
+	setDEX(10);
+	setINT(10);
+	setQi(50);
+    }
+
+    public void setQi(int n){
+	qi = n;
+    }
+
+    public int getQi(){
+	return qi;
+    }
+    
+    public String getStats(){
+	return name + "\n" + getHP() + "HP " + getSTR() + "STR " + getDEX() + "DEX " + getINT() + "INT " + getQi() + "QI";
+    }
