@@ -19,6 +19,14 @@ public class Game{
 	return true;
     }
 
+    public static void pause(int n){
+	try{
+	    Thread.sleep(1000 * n);
+	}catch(InterruptedException e){
+	    Thread.currentThread().interrupt();
+	}
+    }
+
     public static Adventurer setupPlayer(){
 	Adventurer player;
 	Random r = new Random();
@@ -26,7 +34,7 @@ public class Game{
 
 	System.out.println("New player! What will be your adventurer's name?");
 	String name = s.nextLine();
-	System.out.println("Welcome, " + name + "! Choose a class:\nA : Warrior\nB : Wizard\nC : Rogue\nD : Martial Artist");
+	System.out.println("\nWelcome, " + name + "! Choose a class:\nA : Warrior\nB : Wizard\nC : Rogue\nD : Martial Artist");
 	String choice = s.nextLine();
 	while(! choice.equalsIgnoreCase("A") && ! choice.equalsIgnoreCase("B") && ! choice.equalsIgnoreCase("C") && !choice.equalsIgnoreCase("D")){ // if they enter something invalid
 	    System.out.println("Invalid response received. Please try again.");
@@ -49,6 +57,7 @@ public class Game{
 	    player = new MartialArtist(name);
 	    System.out.println("You chose Martial Artist!");
 	}
+	pause(2);
 	setupStats(player);
 	return player;
     }
@@ -58,6 +67,8 @@ public class Game{
 	System.out.println("Your team will consist of four players.");
 	for(int i = 0; i < 4; i++){
 	    players[i] = setupPlayer();
+	    System.out.println("Welcome aboard, " + players[i].getName() + "!!\n\n");
+	    pause(2);
 	}
 	return players;
     }
@@ -151,27 +162,31 @@ public class Game{
 	boolean endmatch = true;
 	String loser = "nobody";
         System.out.println("\n********** GAME BEGINS **********\n");
-	
 
+	pause(1);
 	if(n == 1){
 	    for(int i = 0; i < 4; i++){
 		
 		System.out.println("********** " + players[i].getName() + "'S TURN **********\n");
+		pause(1);
 		if(players[i].getHP() < 1){
 		    System.out.println(players[i].getName() + " is down! He cannot make a move!");
 		}else{
 		    System.out.println("Current stats:\n" + getAllStats() + "\n" + opponent.getStats() + "\n");
+		    pause(5);
 		    System.out.println("Choose an action:\nA : attack\nS : special attack\nG : give up");
 		    String act = s.nextLine();	    
 		    
-		    while(! act.equals("A") && ! act.equals("S") && ! act.equals("G")){
+		    while(! act.equalsIgnoreCase("A") && ! act.equalsIgnoreCase("S") && ! act.equalsIgnoreCase("G")){
 			System.out.println("Invalid response received. Please try again.");
 			act = s.nextLine();
 		    }
 		    if(act.equals("A")){
 			players[i].attack(opponent);
+			pause(1);
 		    }else if(act.equals("S")){
 			players[i].specialAttack(opponent);
+			pause(1);
 		    }else if(act.equals("G")){
 			endmatch = false;
 			loser = "players";
@@ -187,18 +202,30 @@ public class Game{
 	String act2 = "";
 	while(endmatch){
 	    System.out.println("********** OPPONENT'S TURN **********\n");
+	    pause(1);
 	    if(n == 2){
 		System.out.println("Current stats:\n" + getAllStats() + "\n" + opponent.getStats() + "\n");
+		pause(5);
 	    }
 	    double chance = r.nextDouble();
 	    int target = r.nextInt(4);
+	    while(true){
+		if(players[target].getHP() < 1){
+		    target = r.nextInt(4);
+		}else{
+		    break;
+		}
+	    }
 	    if(chance < 0.6){
 		opponent.attack(players[target]);
+		pause(1);
 	    }else{
 		if(opponent.getSC() > 5){
 		    opponent.specialAttack(players[target]);
+		    pause(1);
 		}else{
 		    opponent.attack(players[target]);
+		    pause(1);
 		} 
 	    }
 	    if(checkHealth()){
@@ -210,26 +237,31 @@ public class Game{
 	    for(int i = 0; i < 4; i++){
 		
 		System.out.println("********** " + players[i].getName() + "'S TURN **********\n");
+		pause(1);
 		if(players[i].getHP() < 1){
 		    System.out.println(players[i].getName() + " is down! He cannot make a move!");
 		}else{
 		    if(n==1){
 			System.out.println("Current stats:\n" + getAllStats() + "\n" + opponent.getStats() + "\n");
+			pause(5);
 		    }
 		    System.out.println("Choose an action:\nA : attack\nS : special attack\nG : give up");
 		    act2 = s.nextLine();	    
 		    
-		    while(! act2.equals("A") && ! act2.equals("S") && ! act2.equals("G")){
+		    while(! act2.equalsIgnoreCase("A") && ! act2.equalsIgnoreCase("S") && ! act2.equalsIgnoreCase("G")){
 			System.out.println("Invalid response received. Please try again.");
 			act2 = s.nextLine();
 		    }
 		    if(act2.equals("A")){
 			players[i].attack(opponent);
+			pause(1);
 		    }else if(act2.equals("S")){
 			players[i].specialAttack(opponent);
+			pause(1);
 		    }else if(act2.equals("G")){
 			endmatch = false;
 			loser = "players";
+			break;
 		    }
 		    if(opponent.getHP() < 1){
 			endmatch = false;
@@ -257,6 +289,7 @@ public class Game{
 	if(n == 1){
 	    System.out.println("********** YOUR TURN **********\n");
 	    System.out.println("Current stats:\n" + player.getStats() + "\n" + opponent.getStats() + "\n");
+	    pause(5);
 	    System.out.println("Choose an action:\nA : attack\nS : special attack\nG : give up");
 	    String act = s.nextLine();	    
 	
@@ -266,8 +299,10 @@ public class Game{
 	    }
 	    if(act.equals("A")){
 		player.attack(opponent);
+		pause(2);
 	    }else if(act.equals("S")){
 		player.specialAttack(opponent);
+		pause(2);
 	    }else if(act.equals("G")){
 		endmatch = false;
 		loser = "player";
@@ -282,6 +317,7 @@ public class Game{
 	    System.out.println("********** OPPONENT'S TURN **********\n");
 	    if(n == 2){
 		System.out.println("Current stats:\n" + player.getStats() + "\n" + opponent.getStats() + "\n");
+		pause(5);
 	    }
 	    double chance = r.nextDouble();
 	    if(chance < 0.6){
@@ -301,6 +337,7 @@ public class Game{
 	    System.out.println("********** YOUR TURN **********\n");
 	    if(n==1){
 		System.out.println("Current stats:\n" + player.getStats() + "\n" + opponent.getStats() + "\n");
+		pause(5);
 	    }
 	    System.out.println("Choose an action:\nA : attack\nS : special attack\nG : give up");
 	    act2 = s.nextLine();	    
@@ -349,7 +386,13 @@ public class Game{
 	Scanner s = new Scanner(System.in);
 	
 	System.out.println("Now you shall face against the fierce opponent, " + opponent.getName() + ".");
-	System.out.println("We need to decide who goes first. Allow me to randomly pick with a coin...\n.\n.\n.");
+	pause(3);
+	System.out.println("We need to decide who goes first. Allow me to randomly pick with a coin...");
+	pause(1);
+	System.out.println(".");
+	pause(1);
+	System.out.println(".");
+	pause(1);
 	
 	n = r.nextInt(2) + 1;
 	int decision = 0;
@@ -358,7 +401,7 @@ public class Game{
 	}else{
 	    System.out.println("Opponent goes first!");
 	}
-
+	pause(2);
 	combat(players,opponent);
 	while(true){
 	    System.out.println("Hopefully you didn't break a sweat! Would you like to battle the opponent again? Your players and your opponent will be healed. Enter yes or no.");
